@@ -1,11 +1,11 @@
-//Name: Shehab Mohamed
+//Name: Ashutosh K GUpta
 
 #include <pthread.h>		//Create POSIX threads.
 #include <time.h>			//Wait for a random time.
 #include <unistd.h>			//Thread calls sleep for specified number of seconds.
 #include <semaphore.h>		//To create semaphores
 #include <stdlib.h>			
-#include <stdio.h>			//Input Output
+#include <stdio.h>			
 
 pthread_t *Students;		//N threads running as Students.
 pthread_t TA;				//Separate Thread for TA.
@@ -20,8 +20,8 @@ sem_t ChairsSem[3];
 pthread_mutex_t ChairAccess;
 
 //Declared Functions
-void *TA_Activity();
-void *Student_Activity(void *threadID);
+void *TA_activity();
+void *Student_activity(void *threadID);
 
 int main(int argc, char* argv[])
 {
@@ -52,9 +52,9 @@ int main(int argc, char* argv[])
 	Students = (pthread_t*) malloc(sizeof(pthread_t)*number_of_students);
 
 	//Creating TA thread and N Student threads.
-	pthread_create(&TA, NULL, TA_Activity, NULL);	
+	pthread_create(&TA, NULL, TA_activity, NULL);	
 	for(id = 0; id < number_of_students; id++)
-		pthread_create(&Students[id], NULL, Student_Activity,(void*) (long)id);
+		pthread_create(&Students[id], NULL, Student_activity,(void*) (long)id);
 
 	//Waiting for TA thread and N Student threads.
 	pthread_join(TA, NULL);
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-void *TA_Activity()
+void *TA_activity()
 {
 	while(1)
 	{
@@ -99,7 +99,7 @@ void *TA_Activity()
 	}
 }
 
-void *Student_Activity(void *threadID) 
+void *Student_activity(void *threadID) 
 {
 	int ProgrammingTime;
 
